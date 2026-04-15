@@ -7,7 +7,7 @@ from const import *
 from airplane import PlayerAirplane, EnemyAirplane
 from mystery import MysteryBall
 from bullet import Bullet
-from sound_mange import * 
+from sound_manager import * 
 
 class GameController:
     """
@@ -93,6 +93,7 @@ class GameController:
         self.enemies = []
         self.last_score_used_to_spawn = -1
         self.game_started = False
+        self.difficulty_multiplier = 1.0
 
         self.login_screen()
 
@@ -252,7 +253,7 @@ class GameController:
         self.screen.listen()
 
     def display_score(self):
-        """Display the player's current score."""
+        """Display the player's current score and level."""
         if self.score_text:
             self.score_text.clear()
         else:
@@ -261,8 +262,9 @@ class GameController:
             self.score_text.penup()
             self.score_text.color(WHITE)
         self.score_text.goto(0, SCREEN_HEIGHT / 2 - 50)
+        level = int((self.difficulty_multiplier - 1) * 10) + 1
         self.score_text.write(
-            f"{self.username} Score: {self.player.score}",
+            f"{self.username} Score: {self.player.score} | Level: {level}",
             align="center",
             font=("Arial", 20, "normal")
         )
@@ -307,7 +309,10 @@ class GameController:
         """Spawn an enemy airplane at a random position without overlapping existing enemies."""
         shapes = [AIRPLANE_2, AIRPLANE_3, AIRPLANE_4, AIRPLANE_5]
         random_shape = random.choice(shapes)
-        while True:
+        
+        # Safer spawning logic
+        max_attempts = 10
+        for _ in range(max_attempts):
             x_pos = random.randint(-SCREEN_WIDTH // 2 + 50, SCREEN_WIDTH // 2 - 50)
             y_pos = SCREEN_HEIGHT // 2 - 50
             overlap = False
@@ -323,6 +328,9 @@ class GameController:
                     health=3,
                     size=40
                 )
+                # Apply difficulty scaling to enemy speed
+                new_enemy.patrol_speed *= self.difficulty_multiplier
+                new_enemy.attack_speed *= self.difficulty_multiplier
                 self.enemies.append(new_enemy)
                 break
 
@@ -427,6 +435,9 @@ class GameController:
             self.screen.update()
             return
 
+        # Increase difficulty based on score
+        self.difficulty_multiplier = 1.0 + (self.player.score // 10) * 0.1
+
         for ball in self.mystery_balls[:]:
             ball.move()
             if self.player.distance(ball) < self.player.size + ball.size:
@@ -443,7 +454,8 @@ class GameController:
                 self.player.score += 1
 
         if not self.enemies:
-            for _ in range(random.randint(1, 4)):
+            num_enemies = random.randint(1, min(4 + int(self.player.score // 20), 8))
+            for _ in range(num_enemies):
                 self.spawn_enemy()
 
         if self.player.score % 7 == 0 and self.player.score != self.last_score_used_to_spawn:

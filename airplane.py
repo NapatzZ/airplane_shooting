@@ -4,7 +4,7 @@ from bullet import Bullet
 import time
 import math
 import pygame
-from sound_mange import * 
+from sound_manager import * 
 
 STATE_PATROL = "Patrol"
 STATE_ATTACK = "Attack"
@@ -71,14 +71,14 @@ class Airplane:
     @property
     def x(self):
         """
-        float: The x-coordinate of the airplane’s position.
+        float: The x-coordinate of the airplane's position.
         """
         return self._position[0]
 
     @property
     def y(self):
         """
-        float: The y-coordinate of the airplane’s position.
+        float: The y-coordinate of the airplane's position.
         """
         return self._position[1]
 
@@ -111,7 +111,7 @@ class Airplane:
 
     def take_damage(self, amount):
         """
-        Reduce the airplane’s health by a given amount and destroy it if health reaches zero or below.
+        Reduce the airplane's health by a given amount and destroy it if health reaches zero or below.
         
         Args:
             amount (int): The amount of damage to inflict.
@@ -154,7 +154,7 @@ class Airplane:
 
     def add_bullet(self, bullet):
         """
-        Add a bullet to the airplane’s bullet list.
+        Add a bullet to the airplane's bullet list.
         
         Args:
             bullet (Bullet): The bullet object to add.
@@ -163,7 +163,7 @@ class Airplane:
 
     def update_bullets(self, target):
         """
-        Move and handle collisions for the airplane’s bullets.
+        Move and handle collisions for the airplane's bullets.
         
         Args:
             target: The target object to check for bullet collisions.
@@ -209,20 +209,20 @@ class Airplane:
 
 class PlayerAirplane(Airplane):
     """
-    The player’s airplane class, which can be controlled by keyboard input, shoot bullets,
+    The player's airplane class, which can be controlled by keyboard input, shoot bullets,
     and receive special abilities from mystery balls.
     """
 
     def __init__(self, position, velocity, shape, health, size=20):
         """
-        Initialize the player’s airplane.
+        Initialize the player's airplane.
         
         Args:
             position (tuple): Initial (x, y) position.
             velocity (tuple): Initial (vx, vy) velocity vector.
             shape (str): The turtle shape to represent the player airplane.
             health (int): The initial health of the player.
-            size (int): The radius/size of the player’s airplane.
+            size (int): The radius/size of the player's airplane.
         """
         super().__init__(position, velocity, shape, health, size)
         self._is_up_pressed = False
@@ -305,13 +305,13 @@ class PlayerAirplane(Airplane):
 
     def increase_health(self):
         """
-        Increase the player’s health by 1, capped at a maximum of 3.
+        Increase the player's health by 1, capped at a maximum of 3.
         """
         self._health = min(3, self._health + 1)
 
     def double_speed(self):
         """
-        Double the player’s speed for a temporary period.
+        Double the player's speed for a temporary period.
         """
         self.speed_multiplier = 1.8
         self.ability_activation_time = time.time()
@@ -325,7 +325,7 @@ class PlayerAirplane(Airplane):
 
     def move_airplane_directional(self):
         """
-        Move the player’s airplane based on which directional keys are pressed,
+        Move the player's airplane based on which directional keys are pressed,
         taking into account the current speed multiplier.
         """
         dx, dy = 0, 0
@@ -351,7 +351,7 @@ class PlayerAirplane(Airplane):
 
     def update(self, enemies):
         """
-        Update the player’s state, handle abilities timeout, movement, and bullet collisions.
+        Update the player's state, handle abilities timeout, movement, and bullet collisions.
         
         Args:
             enemies (list): A list of enemy airplanes.
@@ -367,7 +367,7 @@ class PlayerAirplane(Airplane):
 
     def update_bullets(self, enemies):
         """
-        Move player’s bullets and check for collisions with enemies.
+        Move player's bullets and check for collisions with enemies.
         
         Args:
             enemies (list): A list of enemy airplanes.
@@ -468,7 +468,7 @@ class EnemyAirplane(Airplane):
 
     def handle_state_machine(self, target):
         """
-        Determine the current state (Patrol or Attack) of the enemy based on the target’s position.
+        Determine the current state (Patrol or Attack) of the enemy based on the target's position.
         
         Args:
             target (Airplane): The target airplane (usually the player).
@@ -551,7 +551,7 @@ class EnemyAirplane(Airplane):
 
     def shoot_based_on_shape(self, target, cooldown, enhanced_vy_multiplier=1.0):
         """
-        Shoot bullets in patterns depending on the enemy’s shape.
+        Shoot bullets in patterns depending on the enemy's shape.
         
         Args:
             target (Airplane): The target airplane.
@@ -658,7 +658,7 @@ class EnemyAirplane(Airplane):
 
     def update(self, target):
         """
-        Update the enemy airplane’s state, movement, and bullets. Handle collisions with the player.
+        Update the enemy airplane's state, movement, and bullets. Handle collisions with the player.
         
         Args:
             target (Airplane): The target airplane (usually the player).

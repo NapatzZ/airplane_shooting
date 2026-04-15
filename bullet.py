@@ -1,7 +1,7 @@
 import pygame  
 from const import *
 from ball import Ball
-from sound_mange import * 
+from sound_manager import * 
 
 class Bullet(Ball):
     """
@@ -24,13 +24,16 @@ class Bullet(Ball):
         super().__init__(size=5, x=x, y=y, vx=vx, vy=vy, color=color)
         self.owner = owner
         self.turtle.setheading(90 if owner == PLAYER else 270)
-        self.draw()
+        self.turtle.shape("circle")
+        self.turtle.shapesize(stretch_wid=0.5, stretch_len=0.5)
+        self.turtle.color(self.color)
+        self.turtle.goto(self.x, self.y)
+        self.turtle.showturtle()
 
     def hide_bullet(self):
         """
         Hide the bullet's turtle representation from the screen.
         """
-        self.turtle.clear()
         self.turtle.hideturtle()
 
     def is_off_screen(self):
@@ -48,27 +51,17 @@ class Bullet(Ball):
         """
         self.x += self.vx
         self.y += self.vy
-        self.turtle.clear()
-        self.turtle.penup()
         self.turtle.goto(self.x, self.y)
-        self.draw()
 
     def draw(self):
         """
-        Draw the bullet on the screen as a small filled circle.
+        Draw the bullet on the screen. Since we are using shapes, this is handled by turtle.
         """
-        self.turtle.color(self.color)
-        self.turtle.fillcolor(self.color)
-        self.turtle.goto(self.x, self.y - self.size)
-        self.turtle.pendown()
-        self.turtle.begin_fill()
-        self.turtle.circle(self.size)
-        self.turtle.end_fill()
-        self.turtle.hideturtle()
+        pass
 
     def __str__(self):
         """
-        Return a string representation of the bullet’s state.
+        Return a string representation of the bullet's state.
 
         Returns:
             str: A string detailing the bullet's position and velocity.

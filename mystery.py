@@ -3,11 +3,11 @@ import time
 from const import *
 from ball import Ball
 from airplane import PlayerAirplane
-from sound_mange import * 
+from sound_manager import * 
 
 class MysteryBall(Ball):
     """
-    A MysteryBall is a special type of Ball that grants temporary abilities to the player’s airplane.
+    A MysteryBall is a special type of Ball that grants temporary abilities to the player's airplane.
 
     MysteryBalls come in several types (MYSTERY_BALL1, MYSTERY_BALL2, MYSTERY_BALL3), each
     providing a different power-up. When the player collects a MysteryBall, a corresponding ability
@@ -81,7 +81,7 @@ class MysteryBall(Ball):
         If the duration of the ability exceeds MYSTERY_BALL_LIFETIME, it will deactivate the ability.
 
         Args:
-            player (PlayerAirplane): The player’s airplane object.
+            player (PlayerAirplane): The player's airplane object.
 
         Returns:
             bool: True if the ability is still active, False otherwise.
@@ -93,7 +93,7 @@ class MysteryBall(Ball):
 
     def _hide_ball(self):
         """
-        Hide the MysteryBall’s turtle representation.
+        Hide the MysteryBall's turtle representation.
 
         This method is called after the ball has been collected by the player.
         """

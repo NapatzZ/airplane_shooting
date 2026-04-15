@@ -15,8 +15,8 @@ class Ball:
 
         Args:
             size (int): The radius of the ball.
-            x (float): The initial x-coordinate of the ball’s center.
-            y (float): The initial y-coordinate of the ball’s center.
+            x (float): The initial x-coordinate of the ball's center.
+            y (float): The initial y-coordinate of the ball's center.
             vx (float): The initial horizontal velocity of the ball.
             vy (float): The initial vertical velocity of the ball.
             color (str): The color of the ball (currently unused if the ball uses a shape).
@@ -125,7 +125,7 @@ class Ball:
         Calculate the time until this ball hits a vertical wall, if ever.
 
         Returns:
-            float: The time in seconds until the ball hits a vertical wall, or math.inf if it won’t.
+            float: The time in seconds until the ball hits a vertical wall, or math.inf if it won't.
         """
         if self.vx > 0:
             return (self.canvas_width - self.x - self.size) / self.vx
@@ -138,7 +138,7 @@ class Ball:
         Calculate the time until this ball hits a horizontal wall, if ever.
 
         Returns:
-            float: The time in seconds until the ball hits a horizontal wall, or math.inf if it won’t.
+            float: The time in seconds until the ball hits a horizontal wall, or math.inf if it won't.
         """
         if self.vy > 0:
             return (self.canvas_height - self.y - self.size) / self.vy
@@ -154,7 +154,7 @@ class Ball:
             paddle: A paddle object that has location, width, and height attributes.
 
         Returns:
-            float: The time in seconds until the ball hits the paddle, or math.inf if it won’t.
+            float: The time in seconds until the ball hits the paddle, or math.inf if it won't.
         """
         if (self.vy > 0) and ((self.y + self.size) > (paddle.location[1] - paddle.height / 2)):
             return math.inf
@@ -178,9 +178,9 @@ class Ball:
 
     def __str__(self):
         """
-        Return a string representation of the ball’s current state.
+        Return a string representation of the ball's current state.
 
         Returns:
-            str: A string containing the ball’s x, y, vx, vy, and collision count.
+            str: A string containing the ball's x, y, vx, vy, and collision count.
         """
         return f"{self.x}:{self.y}:{self.vx}:{self.vy}:{self.count}"
